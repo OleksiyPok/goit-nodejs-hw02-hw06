@@ -11,7 +11,7 @@ const {
   addContact,
   updateContact,
 } = require("../../models/contacts");
-const { message } = require("../../schemas/contacts");
+
 const contactsSchema = require("../../schemas/contacts");
 
 // GET contacts
@@ -26,9 +26,11 @@ router.get("/:contactId", async (req, res, next) => {
   const contact = await getContactById(contactId);
 
   if (contact === null) {
-    res
-      .status(404)
-      .json({ message: "The requested contact has not been found" });
+    res.status(404).json({
+      status: "error",
+      code: 404,
+      message: "The requested contact has not been found",
+    });
   } else {
     res.status(200).json(contact);
   }
@@ -40,9 +42,11 @@ router.delete("/:contactId", async (req, res, next) => {
   const deletedContacts = await removeContact(contactId);
 
   if (deletedContacts === null) {
-    res
-      .status(404)
-      .json({ message: "The requested contact has not been found" });
+    res.status(404).json({
+      status: "error",
+      code: 404,
+      message: "The requested contact has not been found",
+    });
   } else {
     res.status(200).json({
       message: `Contact '${deletedContacts.name}' has been successfully deleted`,
@@ -59,7 +63,6 @@ router.post("/", jsonParser, async (req, res, next) => {
 
   if (typeof error !== "undefined") {
     res.status(400).json(error.details[0].message);
-
     return;
   }
 
@@ -71,7 +74,6 @@ router.post("/", jsonParser, async (req, res, next) => {
   };
 
   const addedContact = await addContact(newContact);
-
   res.status(201).json(addedContact);
 });
 
@@ -94,9 +96,11 @@ router.put("/:contactId", jsonParser, async (req, res, next) => {
   const updatedContact = await updateContact(contactId, editedContact);
 
   if (updatedContact === null) {
-    res
-      .status(404)
-      .json({ message: "The requested contact has not been found" });
+    res.status(404).json({
+      status: "error",
+      code: 404,
+      message: "The requested contact has not been found",
+    });
   } else {
     res.status(200).json(updatedContact);
   }
