@@ -3,11 +3,13 @@ const crypto = require("node:crypto");
 
 const { CONTACTS_FILE_PATH } = require("../constants/filePaths");
 
+// Read from file
 async function read() {
   const data = await fs.readFile(CONTACTS_FILE_PATH, "utf-8");
   return JSON.parse(data);
 }
 
+// Write to file
 function write(data) {
   return fs.writeFile(CONTACTS_FILE_PATH, JSON.stringify(data, null, 2));
 }

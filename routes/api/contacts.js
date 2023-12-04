@@ -11,6 +11,7 @@ const {
   addContact,
   updateContact,
 } = require("../../models/contacts");
+const { message } = require("../../schemas/contacts");
 const contactsSchema = require("../../schemas/contacts");
 
 // GET contacts
@@ -26,7 +27,7 @@ router.get("/:contactId", async (req, res, next) => {
 
   if (contact === null) {
     res
-      .status(400)
+      .status(404)
       .json({ message: "The requested contact has not been found" });
   } else {
     res.status(200).json(contact);
@@ -40,10 +41,13 @@ router.delete("/:contactId", async (req, res, next) => {
 
   if (deletedContacts === null) {
     res
-      .status(400)
+      .status(404)
       .json({ message: "The requested contact has not been found" });
   } else {
-    res.status(200).json(deletedContacts);
+    res.status(200).json({
+      message: `Contact '${deletedContacts.name}' has been successfully deleted`,
+    });
+    // res.status(200).json(deletedContacts);
   }
 });
 
@@ -52,8 +56,10 @@ router.post("/", jsonParser, async (req, res, next) => {
   const { error, value } = contactsSchema.validate(req.body, {
     allowUnknown: false,
   });
+
   if (typeof error !== "undefined") {
     res.status(400).json(error.details[0].message);
+
     return;
   }
 
@@ -89,7 +95,7 @@ router.put("/:contactId", jsonParser, async (req, res, next) => {
 
   if (updatedContact === null) {
     res
-      .status(400)
+      .status(404)
       .json({ message: "The requested contact has not been found" });
   } else {
     res.status(200).json(updatedContact);
