@@ -32,9 +32,10 @@ const removeContact = async (contactId) => {
   if (idx === -1) {
     return null;
   }
+  const deletedContacts = contactsList[idx];
   const newContactsList = contactsList.filter((_, index) => index !== idx);
   write(newContactsList);
-  return contactsList[idx];
+  return deletedContacts;
 };
 
 const addContact = async (body) => {
@@ -52,7 +53,7 @@ const updateContact = async (contactId, body) => {
   if (idx === -1) {
     return null;
   }
-  contactsList[idx] = { ...body, id: contactId };
+  contactsList[idx] = { id: contactId, ...body };
   write(contactsList);
   return contactsList[idx];
 };

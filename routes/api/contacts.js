@@ -15,14 +15,22 @@ const contactsSchema = require("../../schemas/contacts");
 
 // GET contacts
 router.get("/", async (req, res, next) => {
-  // res.json({ message: "get" });
+  const list = await listContacts();
+  res.status(200).json(list);
 });
 
 // GET contact by Id
 router.get("/:contactId", async (req, res, next) => {
   const { contactId } = req.params;
+  const contact = await getContactById(contactId);
+  res.status(200).json(contact);
+});
 
-  res.json({ message: "get contact" });
+// DELETE contact by Id
+router.delete("/:contactId", async (req, res, next) => {
+  const { contactId } = req.params;
+  const deletedContacts = await removeContact(contactId);
+  res.status(200).json(deletedContacts);
 });
 
 // POST contacts
@@ -32,47 +40,40 @@ router.post("/", jsonParser, async (req, res, next) => {
   });
   if (typeof error !== "undefined") {
     res.status(400).json(error.details[0].message);
+    return;
   }
 
   const newContact = {
     id: crypto.randomUUID(),
     name: value.name,
     email: value.email,
-    number: value.number,
+    phone: value.phone || value.number,
   };
 
-  res.status(200).json(newContact);
+  const addedContact = await addContact(newContact);
 
-  // res.json({ message: "post" });
-});
-
-// DELETE contact by Id
-router.delete("/:contactId", async (req, res, next) => {
-  const { contactId } = req.params;
-
-  res.json({ message: "delete" });
+  res.status(201).json(addedContact);
 });
 
 // PUT contact by Id
 router.put("/:contactId", jsonParser, async (req, res, next) => {
-  const { error, value } = contactsSchema.validate(req.body);
+  const { error, value } = contactsSchema.validate(req.body, {
+    allowUnknown: false,
+  });
 
   if (typeof error !== "undefined") {
     res.status(400).json(error.details[0].message);
+    return;
   }
-
   const { contactId } = req.params;
-
   const editedContact = {
-    id: contactId,
     name: value.name,
     email: value.email,
-    number: value.number,
+    phone: value.phone || value.number,
   };
+  const updatedContact = updateContact(contactId, editedContact);
 
-  res.status(200).json(editedContact);
-
-  // res.json({ message: "put" });
+  res.status(200).json(updatedContact);
 });
 
 module.exports = router;
