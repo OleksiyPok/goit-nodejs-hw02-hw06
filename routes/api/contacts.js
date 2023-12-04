@@ -17,7 +17,11 @@ const contactsSchema = require("../../schemas/contacts");
 // GET contacts
 router.get("/", async (req, res, next) => {
   const list = await listContacts();
-  res.status(200).json(list);
+  res.status(200).json({
+    status: "success",
+    code: 200,
+    data: list,
+  });
 });
 
 // GET contact by Id
@@ -32,7 +36,11 @@ router.get("/:contactId", async (req, res, next) => {
       message: "The requested contact has not been found",
     });
   } else {
-    res.status(200).json(contact);
+    res.status(200).json({
+      status: "success",
+      code: 200,
+      data: contact,
+    });
   }
 });
 
@@ -49,9 +57,15 @@ router.delete("/:contactId", async (req, res, next) => {
     });
   } else {
     res.status(200).json({
+      status: "success",
+      code: 200,
       message: `Contact '${deletedContacts.name}' has been successfully deleted`,
     });
-    // res.status(200).json(deletedContacts);
+    // res.status(200).json({
+    //   status: "success",
+    //   code: 200,
+    //   data: deletedContacts,
+    // });
   }
 });
 
@@ -62,7 +76,11 @@ router.post("/", jsonParser, async (req, res, next) => {
   });
 
   if (typeof error !== "undefined") {
-    res.status(400).json(error.details[0].message);
+    res.status(400).json({
+      status: "error",
+      code: 400,
+      message: error.details[0].message,
+    });
     return;
   }
 
@@ -74,7 +92,11 @@ router.post("/", jsonParser, async (req, res, next) => {
   };
 
   const addedContact = await addContact(newContact);
-  res.status(201).json(addedContact);
+  res.status(201).json({
+    status: "success",
+    code: 201,
+    data: addedContact,
+  });
 });
 
 // PUT contact by Id
@@ -84,7 +106,11 @@ router.put("/:contactId", jsonParser, async (req, res, next) => {
   });
 
   if (typeof error !== "undefined") {
-    res.status(400).json(error.details[0].message);
+    res.status(400).json({
+      status: "error",
+      code: 400,
+      massage: error.details[0].message,
+    });
     return;
   }
   const { contactId } = req.params;
@@ -102,7 +128,11 @@ router.put("/:contactId", jsonParser, async (req, res, next) => {
       message: "The requested contact has not been found",
     });
   } else {
-    res.status(200).json(updatedContact);
+    res.status(200).json({
+      status: "success",
+      code: 200,
+      data: updatedContact,
+    });
   }
 });
 
