@@ -23,14 +23,28 @@ router.get("/", async (req, res, next) => {
 router.get("/:contactId", async (req, res, next) => {
   const { contactId } = req.params;
   const contact = await getContactById(contactId);
-  res.status(200).json(contact);
+
+  if (contact === null) {
+    res
+      .status(400)
+      .json({ message: "The requested contact has not been found" });
+  } else {
+    res.status(200).json(contact);
+  }
 });
 
 // DELETE contact by Id
 router.delete("/:contactId", async (req, res, next) => {
   const { contactId } = req.params;
   const deletedContacts = await removeContact(contactId);
-  res.status(200).json(deletedContacts);
+
+  if (deletedContacts === null) {
+    res
+      .status(400)
+      .json({ message: "The requested contact has not been found" });
+  } else {
+    res.status(200).json(deletedContacts);
+  }
 });
 
 // POST contacts
@@ -71,9 +85,15 @@ router.put("/:contactId", jsonParser, async (req, res, next) => {
     email: value.email,
     phone: value.phone || value.number,
   };
-  const updatedContact = updateContact(contactId, editedContact);
+  const updatedContact = await updateContact(contactId, editedContact);
 
-  res.status(200).json(updatedContact);
+  if (updatedContact === null) {
+    res
+      .status(400)
+      .json({ message: "The requested contact has not been found" });
+  } else {
+    res.status(200).json(updatedContact);
+  }
 });
 
 module.exports = router;
