@@ -3,24 +3,24 @@ const express = require("express");
 const router = express.Router();
 const jsonParser = express.json();
 
-const { contactValidation } = require("../../middlewares");
+const { contactValidation, errorWrapper } = require("../../middlewares");
 const { contactSchema } = require("../../schemas");
 const { contacts: controller } = require("../../controllers");
 
 // GET contacts
-router.get("/", controller.getAll);
+router.get("/", errorWrapper(controller.getAll));
 
 // GET contact by Id
-router.get("/:contactId", controller.getById);
+router.get("/:contactId", errorWrapper(controller.getById));
 
 // DELETE contact by Id
-router.delete("/:contactId", controller.deleteById);
+router.delete("/:contactId", errorWrapper(controller.deleteById));
 
 // POST new contact
 router.post(
   "/",
   jsonParser,
-  contactValidation(contactSchema),
+  errorWrapper(contactValidation(contactSchema)),
   controller.addNew
 );
 
@@ -29,7 +29,7 @@ router.put(
   "/:contactId",
   jsonParser,
   contactValidation(contactSchema),
-  controller.updateById
+  errorWrapper(controller.updateById)
 );
 
 module.exports = router;
