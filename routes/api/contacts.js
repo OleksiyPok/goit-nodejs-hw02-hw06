@@ -16,46 +16,66 @@ const contactsSchema = require("../../schemas/contacts");
 
 // GET contacts
 router.get("/", async (req, res, next) => {
-  const list = await listContacts();
-  res.status(200).json({
-    status: "success",
-    code: 200,
-    data: list,
-  });
+  try {
+    const list = await listContacts();
+    res.status(200).json({
+      status: "success",
+      code: 200,
+      data: list,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      code: 500,
+      message: "Server error",
+    });
+  }
 });
 
 // GET contact by Id
 router.get("/:contactId", async (req, res, next) => {
-  const { contactId } = req.params;
-  const contact = await getContactById(contactId);
+  try {
+    const { contactId } = req.params;
+    const contact = await getContactById(contactId);
 
-  if (contact === null) {
-    res.status(404).json({
-      status: "error",
-      code: 404,
-      message: "The requested contact has not been found",
-    });
-  } else {
+    if (contact === null) {
+      res.status(404).json({
+        status: "error",
+        code: 404,
+        message: `The requested contact has not been found (id: ${contactId})`,
+      });
+      return;
+    }
+
     res.status(200).json({
       status: "success",
       code: 200,
       data: contact,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      code: 500,
+      message: "Server error",
     });
   }
 });
 
 // DELETE contact by Id
 router.delete("/:contactId", async (req, res, next) => {
-  const { contactId } = req.params;
-  const deletedContacts = await removeContact(contactId);
+  try {
+    const { contactId } = req.params;
+    const deletedContacts = await removeContact(contactId);
 
-  if (deletedContacts === null) {
-    res.status(404).json({
-      status: "error",
-      code: 404,
-      message: "The requested contact has not been found",
-    });
-  } else {
+    if (deletedContacts === null) {
+      res.status(404).json({
+        status: "error",
+        code: 404,
+        message: `The requested contact has not been found (id: ${contactId})`,
+      });
+      return;
+    }
+
     res.status(200).json({
       status: "success",
       code: 200,
@@ -66,72 +86,95 @@ router.delete("/:contactId", async (req, res, next) => {
     //   code: 200,
     //   data: deletedContacts,
     // });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      code: 500,
+      message: "Server error",
+    });
   }
 });
 
 // POST contacts
 router.post("/", jsonParser, async (req, res, next) => {
-  const { error, value } = contactsSchema.validate(req.body, {
-    allowUnknown: false,
-  });
-
-  if (typeof error !== "undefined") {
-    res.status(400).json({
-      status: "error",
-      code: 400,
-      message: error.details[0].message,
+  try {
+    const { error, value } = contactsSchema.validate(req.body, {
+      allowUnknown: false,
     });
-    return;
+
+    if (typeof error !== "undefined") {
+      res.status(400).json({
+        status: "error",
+        code: 400,
+        message: error.details[0].message,
+      });
+      return;
+    }
+
+    const newContact = {
+      id: crypto.randomUUID(),
+      name: value.name,
+      email: value.email,
+      phone: value.phone || value.number,
+    };
+
+    const addedContact = await addContact(newContact);
+    res.status(201).json({
+      status: "success",
+      code: 201,
+      data: addedContact,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      code: 500,
+      message: "Server error",
+    });
   }
-
-  const newContact = {
-    id: crypto.randomUUID(),
-    name: value.name,
-    email: value.email,
-    phone: value.phone || value.number,
-  };
-
-  const addedContact = await addContact(newContact);
-  res.status(201).json({
-    status: "success",
-    code: 201,
-    data: addedContact,
-  });
 });
 
 // PUT contact by Id
 router.put("/:contactId", jsonParser, async (req, res, next) => {
-  const { error, value } = contactsSchema.validate(req.body, {
-    allowUnknown: false,
-  });
-
-  if (typeof error !== "undefined") {
-    res.status(400).json({
-      status: "error",
-      code: 400,
-      massage: error.details[0].message,
+  try {
+    const { error, value } = contactsSchema.validate(req.body, {
+      allowUnknown: false,
     });
-    return;
-  }
-  const { contactId } = req.params;
-  const editedContact = {
-    name: value.name,
-    email: value.email,
-    phone: value.phone || value.number,
-  };
-  const updatedContact = await updateContact(contactId, editedContact);
 
-  if (updatedContact === null) {
-    res.status(404).json({
-      status: "error",
-      code: 404,
-      message: "The requested contact has not been found",
-    });
-  } else {
+    if (typeof error !== "undefined") {
+      res.status(400).json({
+        status: "error",
+        code: 400,
+        massage: error.details[0].message,
+      });
+      return;
+    }
+    const { contactId } = req.params;
+    const editedContact = {
+      name: value.name,
+      email: value.email,
+      phone: value.phone || value.number,
+    };
+    const updatedContact = await updateContact(contactId, editedContact);
+
+    if (updatedContact === null) {
+      res.status(404).json({
+        status: "error",
+        code: 404,
+        message: `The requested contact has not been found  (id: ${contactId})`,
+      });
+      return;
+    }
+
     res.status(200).json({
       status: "success",
       code: 200,
       data: updatedContact,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      code: 500,
+      message: "Server error",
     });
   }
 });
