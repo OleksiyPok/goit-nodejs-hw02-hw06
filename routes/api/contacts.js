@@ -1,7 +1,8 @@
 const express = require("express");
 const crypto = require("node:crypto");
-const router = express.Router();
+const createError = require("http-errors");
 
+const router = express.Router();
 const jsonParser = express.json();
 
 const {
@@ -35,11 +36,10 @@ router.get("/:contactId", async (req, res, next) => {
     const contact = await getContactById(contactId);
 
     if (contact === null) {
-      const error = new Error(
+      throw createError(
+        404,
         `The requested contact has not been found (id: ${contactId})`
       );
-      error.status = 404;
-      throw error;
     }
 
     res.status(200).json({
@@ -59,11 +59,10 @@ router.delete("/:contactId", async (req, res, next) => {
     const deletedContacts = await removeContact(contactId);
 
     if (deletedContacts === null) {
-      const error = new Error(
+      throw createError(
+        404,
         `The requested contact has not been found (id: ${contactId})`
       );
-      error.status = 404;
-      throw error;
     }
 
     res.status(200).json({
@@ -84,9 +83,7 @@ router.post("/", jsonParser, async (req, res, next) => {
     });
 
     if (typeof error !== "undefined") {
-      const error = new Error(error.details[0].message);
-      error.status = 400;
-      throw error;
+      throw createError(400, error.details[0].message);
     }
 
     const newContact = {
@@ -115,9 +112,7 @@ router.put("/:contactId", jsonParser, async (req, res, next) => {
     });
 
     if (typeof error !== "undefined") {
-      const error = new Error(error.details[0].message);
-      error.status = 400;
-      throw error;
+      throw createError(400, error.details[0].message);
     }
     const { contactId } = req.params;
     const editedContact = {
@@ -128,11 +123,10 @@ router.put("/:contactId", jsonParser, async (req, res, next) => {
     const updatedContact = await updateContact(contactId, editedContact);
 
     if (updatedContact === null) {
-      const error = new Error(
-        `The requested contact has not been found  (id: ${contactId})`
+      throw createError(
+        404,
+        `The requested contact has not been found (id: ${contactId})`
       );
-      error.status = 404;
-      throw error;
     }
 
     res.status(200).json({
