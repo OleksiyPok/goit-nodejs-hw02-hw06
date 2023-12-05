@@ -1,5 +1,4 @@
 const express = require("express");
-const crypto = require("node:crypto");
 const createError = require("http-errors");
 
 const router = express.Router();
@@ -69,6 +68,7 @@ router.delete("/:contactId", async (req, res, next) => {
       status: "success",
       code: 200,
       message: `Contact '${deletedContacts.name}' has been successfully deleted`,
+      // data: deletedContacts,
     });
   } catch (error) {
     next(error);
@@ -78,22 +78,15 @@ router.delete("/:contactId", async (req, res, next) => {
 // POST contacts
 router.post("/", jsonParser, async (req, res, next) => {
   try {
-    const { error, value } = contactsSchema.validate(req.body, {
+    const validatedBody = contactsSchema.validate(req.body, {
       allowUnknown: false,
     });
 
-    if (typeof error !== "undefined") {
+    if (typeof validatedBody.error !== "undefined") {
       throw createError(400, error.details[0].message);
     }
 
-    const newContact = {
-      id: crypto.randomUUID(),
-      name: value.name,
-      email: value.email,
-      phone: value.phone || value.number,
-    };
-
-    const addedContact = await addContact(newContact);
+    const addedContact = await addContact(validatedBody.value);
     res.status(201).json({
       status: "success",
       code: 201,
@@ -107,20 +100,16 @@ router.post("/", jsonParser, async (req, res, next) => {
 // PUT contact by Id
 router.put("/:contactId", jsonParser, async (req, res, next) => {
   try {
-    const { error, value } = contactsSchema.validate(req.body, {
+    const validatedBody = contactsSchema.validate(req.body, {
       allowUnknown: false,
     });
 
-    if (typeof error !== "undefined") {
+    if (typeof validatedBody.error !== "undefined") {
       throw createError(400, error.details[0].message);
     }
+
     const { contactId } = req.params;
-    const editedContact = {
-      name: value.name,
-      email: value.email,
-      phone: value.phone || value.number,
-    };
-    const updatedContact = await updateContact(contactId, editedContact);
+    const updatedContact = await updateContact(contactId, validatedBody.value);
 
     if (updatedContact === null) {
       throw createError(
