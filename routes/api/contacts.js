@@ -24,11 +24,7 @@ router.get("/", async (req, res, next) => {
       data: list,
     });
   } catch (error) {
-    res.status(500).json({
-      status: "error",
-      code: 500,
-      message: "Server error",
-    });
+    next(error);
   }
 });
 
@@ -39,12 +35,11 @@ router.get("/:contactId", async (req, res, next) => {
     const contact = await getContactById(contactId);
 
     if (contact === null) {
-      res.status(404).json({
-        status: "error",
-        code: 404,
-        message: `The requested contact has not been found (id: ${contactId})`,
-      });
-      return;
+      const error = new Error(
+        `The requested contact has not been found (id: ${contactId})`
+      );
+      error.status = 404;
+      throw error;
     }
 
     res.status(200).json({
@@ -53,11 +48,7 @@ router.get("/:contactId", async (req, res, next) => {
       data: contact,
     });
   } catch (error) {
-    res.status(500).json({
-      status: "error",
-      code: 500,
-      message: "Server error",
-    });
+    next(error);
   }
 });
 
@@ -68,12 +59,11 @@ router.delete("/:contactId", async (req, res, next) => {
     const deletedContacts = await removeContact(contactId);
 
     if (deletedContacts === null) {
-      res.status(404).json({
-        status: "error",
-        code: 404,
-        message: `The requested contact has not been found (id: ${contactId})`,
-      });
-      return;
+      const error = new Error(
+        `The requested contact has not been found (id: ${contactId})`
+      );
+      error.status = 404;
+      throw error;
     }
 
     res.status(200).json({
@@ -81,17 +71,8 @@ router.delete("/:contactId", async (req, res, next) => {
       code: 200,
       message: `Contact '${deletedContacts.name}' has been successfully deleted`,
     });
-    // res.status(200).json({
-    //   status: "success",
-    //   code: 200,
-    //   data: deletedContacts,
-    // });
   } catch (error) {
-    res.status(500).json({
-      status: "error",
-      code: 500,
-      message: "Server error",
-    });
+    next(error);
   }
 });
 
@@ -103,12 +84,9 @@ router.post("/", jsonParser, async (req, res, next) => {
     });
 
     if (typeof error !== "undefined") {
-      res.status(400).json({
-        status: "error",
-        code: 400,
-        message: error.details[0].message,
-      });
-      return;
+      const error = new Error(error.details[0].message);
+      error.status = 400;
+      throw error;
     }
 
     const newContact = {
@@ -125,11 +103,7 @@ router.post("/", jsonParser, async (req, res, next) => {
       data: addedContact,
     });
   } catch (error) {
-    res.status(500).json({
-      status: "error",
-      code: 500,
-      message: "Server error",
-    });
+    next(error);
   }
 });
 
@@ -141,12 +115,9 @@ router.put("/:contactId", jsonParser, async (req, res, next) => {
     });
 
     if (typeof error !== "undefined") {
-      res.status(400).json({
-        status: "error",
-        code: 400,
-        massage: error.details[0].message,
-      });
-      return;
+      const error = new Error(error.details[0].message);
+      error.status = 400;
+      throw error;
     }
     const { contactId } = req.params;
     const editedContact = {
@@ -157,12 +128,11 @@ router.put("/:contactId", jsonParser, async (req, res, next) => {
     const updatedContact = await updateContact(contactId, editedContact);
 
     if (updatedContact === null) {
-      res.status(404).json({
-        status: "error",
-        code: 404,
-        message: `The requested contact has not been found  (id: ${contactId})`,
-      });
-      return;
+      const error = new Error(
+        `The requested contact has not been found  (id: ${contactId})`
+      );
+      error.status = 404;
+      throw error;
     }
 
     res.status(200).json({
@@ -171,11 +141,7 @@ router.put("/:contactId", jsonParser, async (req, res, next) => {
       data: updatedContact,
     });
   } catch (error) {
-    res.status(500).json({
-      status: "error",
-      code: 500,
-      message: "Server error",
-    });
+    next(error);
   }
 });
 
