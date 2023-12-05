@@ -34,10 +34,9 @@ const removeContact = async (contactId) => {
   if (idx === -1) {
     return null;
   }
-  const deletedContacts = contactsList[idx];
-  const newContactsList = contactsList.filter((_, index) => index !== idx);
-  write(newContactsList);
-  return deletedContacts;
+  const deletedContact = contactsList.splice(idx, 1);
+  write(contactsList);
+  return deletedContact[0];
 };
 
 const addContact = async (body) => {
