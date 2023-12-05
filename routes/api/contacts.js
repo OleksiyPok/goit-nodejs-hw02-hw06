@@ -20,8 +20,8 @@ router.delete("/:contactId", errorWrapper(controller.deleteById));
 router.post(
   "/",
   jsonParser,
-  errorWrapper(contactValidation(contactSchema)),
-  controller.addNew
+  contactValidation(contactSchema),
+  errorWrapper(controller.addNew)
 );
 
 // PUT contact by Id
