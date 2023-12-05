@@ -1,21 +1,12 @@
 const createError = require("http-errors");
 
 const productsOperations = require("../../models/contacts");
-const contactsSchema = require("../../schemas/contacts");
+// const contactSchema = require("../../schemas");
+// const contactSchema = require("../../schemas");
 
 const addNew = async (req, res, next) => {
   try {
-    const validatedBody = contactsSchema.validate(req.body, {
-      allowUnknown: false,
-    });
-
-    if (typeof validatedBody.error !== "undefined") {
-      throw createError(400, validatedBody.error.details[0].message);
-    }
-
-    const addedContact = await productsOperations.addContact(
-      validatedBody.value
-    );
+    const addedContact = await productsOperations.addContact(req.body);
     res.status(201).json({
       status: "success",
       code: 201,
