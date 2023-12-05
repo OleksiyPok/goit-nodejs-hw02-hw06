@@ -83,7 +83,7 @@ router.post("/", jsonParser, async (req, res, next) => {
     });
 
     if (typeof validatedBody.error !== "undefined") {
-      throw createError(400, error.details[0].message);
+      throw createError(400, validatedBody.error.details[0].message);
     }
 
     const addedContact = await addContact(validatedBody.value);
@@ -105,7 +105,7 @@ router.put("/:contactId", jsonParser, async (req, res, next) => {
     });
 
     if (typeof validatedBody.error !== "undefined") {
-      throw createError(400, error.details[0].message);
+      throw createError(400, validatedBody.error.details[0].message);
     }
 
     const { contactId } = req.params;
