@@ -1,7 +1,7 @@
 const fs = require("fs").promises;
 const crypto = require("node:crypto");
 
-const { CONTACTS_FILE_PATH } = require("../constants/filePaths");
+const { CONTACTS_FILE_PATH } = require("../constants");
 
 // Read from file
 async function read() {
