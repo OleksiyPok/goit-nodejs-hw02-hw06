@@ -1,10 +1,10 @@
-const productsOperations = require("../../models/contacts");
+const contactsOperations = require("../../models/contacts");
 
 const createError = require("http-errors");
 
 const getById = async (req, res) => {
   const { contactId } = req.params;
-  const contact = await productsOperations.getContactById(contactId);
+  const contact = await contactsOperations.getContactById(contactId);
 
   if (contact === null) {
     throw createError(

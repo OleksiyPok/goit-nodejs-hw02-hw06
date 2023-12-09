@@ -1,10 +1,10 @@
-const productsOperations = require("../../models/contacts");
+const contactsOperations = require("../../models/contacts");
 
 const createError = require("http-errors");
 
 const deleteById = async (req, res) => {
   const { contactId } = req.params;
-  const deletedContacts = await productsOperations.removeContact(contactId);
+  const deletedContacts = await contactsOperations.removeContact(contactId);
 
   if (deletedContacts === null) {
     throw createError(
