@@ -5,7 +5,7 @@ const jsonParser = express.json();
 
 const { errorWrapper } = require("../../helpers");
 const { contactValidation } = require("../../middlewares");
-const { contactSchema } = require("../../schemas");
+const { contactSchema } = require("../../models/schemas");
 const { contacts: ContactsController } = require("../../controllers");
 
 // GET contacts

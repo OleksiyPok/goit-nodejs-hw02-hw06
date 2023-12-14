@@ -1,4 +1,4 @@
-const contactSchema = require("../schemas");
+const contactSchema = require("../models/schemas");
 const createError = require("http-errors");
 
 const contactValidation = (contactSchema) => {
