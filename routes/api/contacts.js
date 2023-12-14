@@ -3,7 +3,8 @@ const express = require("express");
 const router = express.Router();
 const jsonParser = express.json();
 
-const { contactValidation, errorWrapper } = require("../../middlewares");
+const { errorWrapper } = require("../../helpers");
+const { contactValidation } = require("../../middlewares");
 const { contactSchema } = require("../../schemas");
 const { contacts: ContactsController } = require("../../controllers");
 
