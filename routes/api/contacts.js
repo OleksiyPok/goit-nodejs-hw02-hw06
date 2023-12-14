@@ -1,6 +1,6 @@
 const express = require("express");
 
-const router = express.Router();
+const contactRouter = express.Router();
 const jsonParser = express.json();
 
 const { errorWrapper } = require("../../helpers");
@@ -9,16 +9,19 @@ const { contactSchema } = require("../../schemas");
 const { contacts: ContactsController } = require("../../controllers");
 
 // GET contacts
-router.get("/", errorWrapper(ContactsController.getAll));
+contactRouter.get("/", errorWrapper(ContactsController.getAll));
 
 // GET contact by Id
-router.get("/:contactId", errorWrapper(ContactsController.getById));
+contactRouter.get("/:contactId", errorWrapper(ContactsController.getById));
 
 // DELETE contact by Id
-router.delete("/:contactId", errorWrapper(ContactsController.deleteById));
+contactRouter.delete(
+  "/:contactId",
+  errorWrapper(ContactsController.deleteById)
+);
 
 // POST new contact
-router.post(
+contactRouter.post(
   "/",
   jsonParser,
   contactValidation(contactSchema),
@@ -26,11 +29,11 @@ router.post(
 );
 
 // PUT contact by Id
-router.put(
+contactRouter.put(
   "/:contactId",
   jsonParser,
   contactValidation(contactSchema),
   errorWrapper(ContactsController.updateById)
 );
 
-module.exports = router;
+module.exports = contactRouter;
