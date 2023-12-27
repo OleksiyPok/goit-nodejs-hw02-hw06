@@ -1,4 +1,6 @@
-const contactsOperations = require("../../models/contacts");
+const contactsOperations = require("../../db/contactsOparations");
+
+const { errorWrapper } = require("../../helpers");
 
 const getAll = async (req, res) => {
   const list = await contactsOperations.listContacts();
@@ -9,4 +11,4 @@ const getAll = async (req, res) => {
   });
 };
 
-module.exports = getAll;
+module.exports = errorWrapper(getAll);

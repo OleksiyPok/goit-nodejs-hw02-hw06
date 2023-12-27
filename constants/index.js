@@ -1,5 +1,5 @@
-const { CONTACTS_FILE_PATH } = require("./filePaths");
+// const {  } = require("./");
 
-module.exports = {
-  CONTACTS_FILE_PATH,
-};
+// module.exports = {
+
+// };

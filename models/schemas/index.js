@@ -1,5 +1,5 @@
-const contactSchema = require("./contact");
+const contactSchemaApi = require("./contact");
 
 module.exports = {
-  contactSchema,
+  contactSchemaApi,
 };

@@ -1,6 +1,7 @@
-const contactsOperations = require("../../models/contacts");
+const contactsOperations = require("../../db/contactsOparations");
 
 const createError = require("http-errors");
+const { errorWrapper } = require("../../helpers");
 
 const deleteById = async (req, res) => {
   const { contactId } = req.params;
@@ -21,4 +22,4 @@ const deleteById = async (req, res) => {
   });
 };
 
-module.exports = deleteById;
+module.exports = errorWrapper(deleteById);

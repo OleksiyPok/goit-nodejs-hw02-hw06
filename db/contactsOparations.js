@@ -1,7 +1,8 @@
+const path = require("path");
 const fs = require("fs").promises;
 const crypto = require("node:crypto");
 
-const { CONTACTS_FILE_PATH } = require("../constants");
+const CONTACTS_FILE_PATH = path.join(__dirname, "contacts.json");
 
 // Read from file
 async function read() {
@@ -28,6 +29,15 @@ const getContactById = async (contactId) => {
   return contact;
 };
 
+const addContact = async (body) => {
+  const contactsList = await listContacts();
+  const newId = crypto.randomUUID();
+  const newContact = { ...body, id: newId };
+  contactsList.push(newContact);
+  write(contactsList);
+  return newContact;
+};
+
 const removeContact = async (contactId) => {
   const contactsList = await listContacts();
   const idx = contactsList.findIndex((item) => item.id === contactId);
@@ -37,15 +47,6 @@ const removeContact = async (contactId) => {
   const deletedContact = contactsList.splice(idx, 1);
   write(contactsList);
   return deletedContact[0];
-};
-
-const addContact = async (body) => {
-  const contactsList = await listContacts();
-  const newId = crypto.randomUUID();
-  const newContact = { id: "", ...body, id: newId };
-  contactsList.push(newContact);
-  write(contactsList);
-  return newContact;
 };
 
 const updateContact = async (contactId, body) => {
@@ -62,7 +63,7 @@ const updateContact = async (contactId, body) => {
 module.exports = {
   listContacts,
   getContactById,
-  removeContact,
   addContact,
+  removeContact,
   updateContact,
 };

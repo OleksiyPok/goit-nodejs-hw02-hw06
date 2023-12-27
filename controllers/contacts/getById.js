@@ -1,6 +1,7 @@
-const contactsOperations = require("../../models/contacts");
+const contactsOperations = require("../../db/contactsOparations");
 
 const createError = require("http-errors");
+const { errorWrapper } = require("../../helpers");
 
 const getById = async (req, res) => {
   const { contactId } = req.params;
@@ -20,4 +21,4 @@ const getById = async (req, res) => {
   });
 };
 
-module.exports = getById;
+module.exports = errorWrapper(getById);

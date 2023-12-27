@@ -1,9 +1,8 @@
-const contactSchema = require("../models/schemas");
 const createError = require("http-errors");
 
-const contactValidation = (contactSchema) => {
+const contactValidation = (contactSchemaApi) => {
   return (req, res, next) => {
-    const { error } = contactSchema.validate(req.body, {
+    const { error } = contactSchemaApi.validate(req.body, {
       allowUnknown: false,
     });
 

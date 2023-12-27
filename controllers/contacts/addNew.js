@@ -1,7 +1,10 @@
-const contactsOperations = require("../../models/contacts");
+const contactsOperations = require("../../db/contactsOparations");
+
+const { errorWrapper } = require("../../helpers");
 
 const addNew = async (req, res) => {
   const addedContact = await contactsOperations.addContact(req.body);
+
   res.status(201).json({
     status: "success",
     code: 201,
@@ -9,4 +12,4 @@ const addNew = async (req, res) => {
   });
 };
 
-module.exports = addNew;
+module.exports = errorWrapper(addNew);
