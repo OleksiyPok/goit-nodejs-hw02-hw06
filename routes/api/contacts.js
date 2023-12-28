@@ -1,25 +1,35 @@
-const express = require('express')
+const express = require("express");
 
-const router = express.Router()
+const contactRouter = express.Router();
+const jsonParser = express.json();
 
-router.get('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+const { contactSchemaApi } = require("../../models");
+const { contacts: ContactsController } = require("../../controllers");
+const { contactValidation } = require("../../middlewares");
 
-router.get('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+// GET contacts
+contactRouter.get("/", ContactsController.getAll);
 
-router.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+// GET contact by Id
+contactRouter.get("/:contactId", ContactsController.getById);
 
-router.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+// DELETE contact by Id
+contactRouter.delete("/:contactId", ContactsController.deleteById);
 
-router.put('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
-})
+// POST new contact
+contactRouter.post(
+  "/",
+  jsonParser,
+  contactValidation(contactSchemaApi),
+  ContactsController.addNew
+);
 
-module.exports = router
+// PUT contact by Id
+contactRouter.put(
+  "/:contactId",
+  jsonParser,
+  contactValidation(contactSchemaApi),
+  ContactsController.updateById
+);
+
+module.exports = contactRouter;
