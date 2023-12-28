@@ -1,23 +1,23 @@
 const express = require("express");
 
-const contactRouter = express.Router();
+const router = express.Router();
 const jsonParser = express.json();
 
-const { contactSchemaApi } = require("../../models");
+const { contactSchemaApi, contactSchemaApiFavorite } = require("../../models");
 const { contacts: ContactsController } = require("../../controllers");
 const { contactValidation } = require("../../middlewares");
 
 // GET contacts
-contactRouter.get("/", ContactsController.getAll);
+router.get("/", ContactsController.getAll);
 
 // GET contact by Id
-contactRouter.get("/:contactId", ContactsController.getById);
+router.get("/:contactId", ContactsController.getById);
 
 // DELETE contact by Id
-contactRouter.delete("/:contactId", ContactsController.deleteById);
+router.delete("/:contactId", ContactsController.deleteById);
 
 // POST new contact
-contactRouter.post(
+router.post(
   "/",
   jsonParser,
   contactValidation(contactSchemaApi),
@@ -25,11 +25,19 @@ contactRouter.post(
 );
 
 // PUT contact by Id
-contactRouter.put(
+router.put(
   "/:contactId",
   jsonParser,
   contactValidation(contactSchemaApi),
   ContactsController.updateById
 );
 
-module.exports = contactRouter;
+// PATCH field "favorite" by contact Id
+router.patch(
+  "/:contactId/favorite",
+  jsonParser,
+  contactValidation(contactSchemaApiFavorite),
+  ContactsController.updateFavoriteById
+);
+
+module.exports = router;
