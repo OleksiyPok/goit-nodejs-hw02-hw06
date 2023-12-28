@@ -1,5 +1,5 @@
-// const {  } = require("./");
+const REGEX = require("./regex");
 
-// module.exports = {
-
-// };
+module.exports = {
+  REGEX,
+};

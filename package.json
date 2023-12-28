@@ -1,5 +1,5 @@
 {
-  "name": "goit-nodejs-hw02",
+  "name": "goit-nodejs-hw03-mongodb",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -11,9 +11,11 @@
   "dependencies": {
     "cors": "2.8.5",
     "cross-env": "7.0.3",
+    "dotenv": "^16.3.1",
     "express": "4.17.1",
     "http-errors": "^2.0.0",
     "joi": "^17.11.0",
+    "mongoose": "^8.0.3",
     "morgan": "1.10.0"
   },
   "devDependencies": {
