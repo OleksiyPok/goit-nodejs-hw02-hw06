@@ -1,3 +1,21 @@
-// const {} = require("./");
+// const {
+//   User,
+//   userRegisterSchemaApi,
+//   userLoginSchemaApi,
+//   userSubscriptionSchemaApi,
+// } = require("./user");
 
-// module.exports = {};
+const User = require("./user");
+
+const {
+  userRegisterSchemaApi,
+  userLoginSchemaApi,
+  userSubscriptionSchemaApi,
+} = require("./schemaApi");
+
+module.exports = {
+  User,
+  userRegisterSchemaApi,
+  userLoginSchemaApi,
+  userSubscriptionSchemaApi,
+};
