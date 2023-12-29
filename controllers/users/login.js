@@ -1,8 +1,9 @@
+const appRoot = process.cwd();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
 
-const { User } = require("../../models");
+const { User } = require(appRoot + "/models");
 
 const { JWT_SECRET } = process.env;
 

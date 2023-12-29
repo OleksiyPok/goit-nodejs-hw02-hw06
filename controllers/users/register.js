@@ -1,7 +1,8 @@
+const appRoot = process.cwd();
 const bcrypt = require("bcrypt");
 const createError = require("http-errors");
 
-const { User } = require("../../models");
+const { User } = require(appRoot + "/models");
 
 const register = async (req, res) => {
   const { name, password } = req.body;

@@ -1,5 +1,6 @@
-const { Contact } = require("../../models");
-const { User } = require("../../models");
+const appRoot = process.cwd();
+const { Contact } = require(appRoot + "/models");
+const { User } = require(appRoot + "/models");
 
 const createError = require("http-errors");
 

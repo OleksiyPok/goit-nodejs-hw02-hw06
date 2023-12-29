@@ -1,4 +1,5 @@
-const { User } = require("../models");
+const appRoot = process.cwd();
+const { User } = require(appRoot + "/models");
 const { JWT_SECRET } = process.env;
 
 const jwt = require("jsonwebtoken");

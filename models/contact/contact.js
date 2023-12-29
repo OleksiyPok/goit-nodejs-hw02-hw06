@@ -1,5 +1,6 @@
+const appRoot = process.cwd();
 const { Schema, model } = require("mongoose");
-const { REGEX } = require("../../constants");
+const { REGEX } = require(appRoot + "/constants");
 
 const contactSchemaDb = Schema(
   {

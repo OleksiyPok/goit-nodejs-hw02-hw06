@@ -1,6 +1,7 @@
-const { Contact } = require("../../models");
+const appRoot = process.cwd();
+const { Contact } = require(appRoot + "/models");
 
-const { errorWrapper } = require("../../helpers");
+const { errorWrapper } = require(appRoot + "/helpers");
 
 const getAll = async (req, res) => {
   const list = await Contact.find({});

@@ -1,7 +1,8 @@
-const { Contact } = require("../../models");
+const appRoot = process.cwd();
+const { Contact } = require(appRoot + "/models");
 
 const createError = require("http-errors");
-const { errorWrapper } = require("../../helpers");
+const { errorWrapper } = require(appRoot + "/helpers");
 
 const deleteById = async (req, res) => {
   const { contactId } = req.params;

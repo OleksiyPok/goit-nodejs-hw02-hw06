@@ -1,5 +1,6 @@
+const appRoot = process.cwd();
 const { Schema, model } = require("mongoose");
-const { REGEX, commonConst } = require("../../constants");
+const { REGEX, commonConst } = require(appRoot + "/constants");
 
 const { userSubscription } = commonConst;
 

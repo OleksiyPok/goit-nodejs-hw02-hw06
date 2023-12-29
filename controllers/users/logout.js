@@ -1,4 +1,5 @@
-const { User } = require("../../models");
+const appRoot = process.cwd();
+const { User } = require(appRoot + "/models");
 
 const logout = async (req, res) => {
   const { id } = req.user;

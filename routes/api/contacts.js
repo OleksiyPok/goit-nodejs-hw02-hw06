@@ -1,11 +1,13 @@
+const appRoot = process.cwd();
 const express = require("express");
 
 const router = express.Router();
 const jsonParser = express.json();
 
-const { contactSchemaApi, contactSchemaApiFavorite } = require("../../models");
-const { contacts: ContactsController } = require("../../controllers");
-const { auth, validation } = require("../../middlewares");
+const { contactSchemaApi, contactSchemaApiFavorite } = require(appRoot +
+  "/models");
+const { contacts: ContactsController } = require(appRoot + "/controllers");
+const { auth, validation } = require(appRoot + "/middlewares");
 
 // GET contacts
 router.get("/", auth, ContactsController.getAll);

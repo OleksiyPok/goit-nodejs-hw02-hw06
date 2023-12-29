@@ -1,5 +1,6 @@
+const appRoot = process.cwd();
 const Joi = require("joi");
-const { REGEX, commonConst } = require("../../constants");
+const { REGEX, commonConst } = require(appRoot + "/constants");
 
 const { userSubscription } = commonConst;
 
