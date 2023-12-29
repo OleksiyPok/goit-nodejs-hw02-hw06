@@ -1,10 +1,3 @@
-// const {
-//   User,
-//   userRegisterSchemaApi,
-//   userLoginSchemaApi,
-//   userSubscriptionSchemaApi,
-// } = require("./user");
-
 const User = require("./user");
 
 const {
