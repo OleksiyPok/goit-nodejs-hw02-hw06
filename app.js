@@ -1,10 +1,11 @@
+require("dotenv").config();
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 
 const app = express();
 
-const routes = require("./routes/api");
+const routes = require("./routes/api/index");
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 

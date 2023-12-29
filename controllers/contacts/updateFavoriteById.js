@@ -3,11 +3,16 @@ const { Contact } = require("../../models");
 const createError = require("http-errors");
 const { errorWrapper } = require("../../helpers");
 
-const deleteById = async (req, res) => {
+const updateFavoriteById = async (req, res) => {
   const { contactId } = req.params;
-  const deletedContacts = await Contact.findByIdAndDelete(contactId);
+  const { favorite } = req.body;
+  const updatedContact = await Contact.findByIdAndUpdate(
+    contactId,
+    { favorite },
+    { new: true }
+  );
 
-  if (deletedContacts === null) {
+  if (updatedContact === null) {
     throw createError(
       404,
       `The requested contact has not been found (id: ${contactId})`
@@ -17,9 +22,8 @@ const deleteById = async (req, res) => {
   res.status(200).json({
     status: "success",
     code: 200,
-    message: `Contact '${deletedContacts.name}' has been successfully deleted`,
-    // data: deletedContacts,
+    data: updatedContact,
   });
 };
 
-module.exports = errorWrapper(deleteById);
+module.exports = errorWrapper(updateFavoriteById);
