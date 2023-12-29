@@ -1,3 +1,6 @@
+const appRoot = process.cwd();
+const { errorWrapper } = require(appRoot + "/helpers");
+
 const getCurrent = async (req, res) => {
   res.status(200).json({
     status: "success",
@@ -6,4 +9,4 @@ const getCurrent = async (req, res) => {
   });
 };
 
-module.exports = getCurrent;
+module.exports = errorWrapper(getCurrent);

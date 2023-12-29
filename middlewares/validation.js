@@ -1,8 +1,8 @@
 const createError = require("http-errors");
 
-const validation = (contactSchemaApi) => {
+const validation = (schemaApi) => {
   return (req, res, next) => {
-    const { error } = contactSchemaApi.validate(req.body, {
+    const { error } = schemaApi.validate(req.body, {
       allowUnknown: false,
     });
 

@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
 
+const { errorWrapper } = require(appRoot + "/helpers");
+
 const { User } = require(appRoot + "/models");
 
 const { JWT_SECRET } = process.env;
@@ -39,4 +41,4 @@ const login = async (req, res) => {
   });
 };
 
-module.exports = login;
+module.exports = errorWrapper(login);

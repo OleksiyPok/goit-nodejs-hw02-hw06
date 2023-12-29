@@ -1,7 +1,8 @@
 const appRoot = process.cwd();
 const { User } = require(appRoot + "/models");
-
 const createError = require("http-errors");
+
+const { errorWrapper } = require(appRoot + "/helpers");
 
 const updateSubscription = async (req, res) => {
   const { id: userid } = req.user;
@@ -27,4 +28,4 @@ const updateSubscription = async (req, res) => {
   });
 };
 
-module.exports = updateSubscription;
+module.exports = errorWrapper(updateSubscription);

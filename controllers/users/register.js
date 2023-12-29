@@ -2,6 +2,8 @@ const appRoot = process.cwd();
 const bcrypt = require("bcrypt");
 const createError = require("http-errors");
 
+const { errorWrapper } = require(appRoot + "/helpers");
+
 const { User } = require(appRoot + "/models");
 
 const register = async (req, res) => {
@@ -20,21 +22,20 @@ const register = async (req, res) => {
 
   const passwordHash = await bcrypt.hash(password, 10);
 
-  await User.create({
-    name,
-    email,
+  const newUser = {
+    ...req.body,
     password: passwordHash,
-  });
+  };
+
+  await User.create(newUser);
 
   res.status(201).json({
     status: "success",
     code: 201,
     data: {
-      name,
-      email,
-      passwordHash,
+      newUser,
     },
   });
 };
 
-module.exports = register;
+module.exports = errorWrapper(register);

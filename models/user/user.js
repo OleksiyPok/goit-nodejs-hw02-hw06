@@ -21,14 +21,14 @@ const userSchemaDb = Schema(
       type: String,
       required: [true, "Set password for user identification"],
     },
-    token: {
-      type: String,
-      default: null,
-    },
     subscription: {
       type: String,
       enum: userSubscription,
       default: "starter",
+    },
+    token: {
+      type: String,
+      default: null,
     },
   },
   { versionKey: false, timestamps: true }

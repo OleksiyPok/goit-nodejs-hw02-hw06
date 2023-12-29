@@ -1,8 +1,9 @@
 const appRoot = process.cwd();
 const { Contact } = require(appRoot + "/models");
 const { User } = require(appRoot + "/models");
-
 const createError = require("http-errors");
+
+const { errorWrapper } = require(appRoot + "/helpers");
 
 const deleteUser = async (req, res) => {
   const userid = req.user.id;
@@ -42,4 +43,4 @@ const deleteUser = async (req, res) => {
   //   res.status(200).json({ message: "delete user" });
 };
 
-module.exports = deleteUser;
+module.exports = errorWrapper(deleteUser);
