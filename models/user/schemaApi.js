@@ -3,7 +3,6 @@ const Joi = require("joi");
 const { REGEX, commonConst } = require(appRoot + "/constants");
 
 const { userSubscription } = commonConst;
-console.log("userSubscription:", userSubscription);
 
 const userRegisterSchemaApi = Joi.object().keys({
   name: Joi.string().min(3).required(),

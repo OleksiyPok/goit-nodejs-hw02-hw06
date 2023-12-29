@@ -7,7 +7,6 @@ const { errorWrapper } = require(appRoot + "/helpers");
 const { User } = require(appRoot + "/models");
 
 const register = async (req, res) => {
-  const { name, password } = req.body;
   const email = req.body.email.toLowerCase();
 
   const user = await User.findOne({ email }).exec();
@@ -20,10 +19,11 @@ const register = async (req, res) => {
     );
   }
 
-  const passwordHash = await bcrypt.hash(password, 10);
+  const passwordHash = await bcrypt.hash(req.body.password, 10);
 
   const newUser = {
     ...req.body,
+    email,
     password: passwordHash,
   };
 

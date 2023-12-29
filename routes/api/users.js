@@ -28,7 +28,6 @@ userRouter.post(
 userRouter.post(
   "/login",
   jsonParser,
-  auth,
   validation(userLoginSchemaApi),
   UserController.login
 );
