@@ -8,12 +8,13 @@ const createError = require("http-errors");
 const { errorWrapper } = require(appRoot + "/helpers");
 
 // const { imageTools } = require(appRoot + "/middlewares");
-const dateSuffix = require(appRoot + "/helpers");
 
 const { User } = require(appRoot + "/models");
+const dateSuffix = require(appRoot + "/helpers");
 
 const updateAvatar = async (req, res) => {
   const file = req.file;
+  console.log("file:", file);
   const userid = req.user.id;
 
   const tempFilePath = file.path;

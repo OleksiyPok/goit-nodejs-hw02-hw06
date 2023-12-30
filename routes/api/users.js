@@ -52,7 +52,7 @@ userRouter.patch(
 userRouter.patch(
   "/avatar",
   auth,
-  // upload.single("avatar"),
+  upload.single("avatar"),
   UserController.updateAvatar
 );
 
