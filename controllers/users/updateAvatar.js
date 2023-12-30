@@ -7,8 +7,6 @@ const createError = require("http-errors");
 
 const { errorWrapper } = require(appRoot + "/helpers");
 
-// const { imageTools } = require(appRoot + "/middlewares");
-
 const { User } = require(appRoot + "/models");
 const dateSuffix = require(appRoot + "/helpers");
 
