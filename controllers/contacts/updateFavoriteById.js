@@ -5,13 +5,17 @@ const createError = require("http-errors");
 const { errorWrapper } = require(appRoot + "/helpers");
 
 const updateFavoriteById = async (req, res) => {
+  const { id: ownerid } = req.user;
   const { contactId } = req.params;
   const { favorite } = req.body;
+
   const updatedContact = await Contact.findByIdAndUpdate(
     contactId,
     { favorite },
     { new: true }
-  );
+  )
+    .and([{ owner: ownerid }])
+    .exec();
 
   if (updatedContact === null) {
     throw createError(
