@@ -1,5 +1,7 @@
-const contactValidation = require("./contactValidation");
+const validation = require("./validation");
+const auth = require("./auth");
 
 module.exports = {
-  contactValidation,
+  validation,
+  auth,
 };

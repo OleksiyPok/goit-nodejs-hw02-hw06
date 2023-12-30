@@ -1,5 +1,6 @@
+const appRoot = process.cwd();
 const { Schema, model } = require("mongoose");
-const { REGEX } = require("../../constants");
+const { REGEX } = require(appRoot + "/constants");
 
 const contactSchemaDb = Schema(
   {
@@ -20,6 +21,11 @@ const contactSchemaDb = Schema(
     favorite: {
       type: Boolean,
       default: false,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "user",
     },
   },
   { versionKey: false, timestamps: true }

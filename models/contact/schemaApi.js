@@ -1,5 +1,6 @@
+const appRoot = process.cwd();
 const Joi = require("joi");
-const { REGEX } = require("../../constants");
+const { REGEX } = require(appRoot + "/constants");
 
 const contactSchemaApi = Joi.object().keys({
   name: Joi.string().min(3).required(),
