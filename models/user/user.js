@@ -21,6 +21,10 @@ const userSchemaDb = Schema(
       type: String,
       required: [true, "Set password for user identification"],
     },
+    avatar: {
+      type: String,
+      default: null,
+    },
     subscription: {
       type: String,
       enum: userSubscription,

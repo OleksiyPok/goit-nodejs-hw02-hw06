@@ -1,5 +1,6 @@
 const appRoot = process.cwd();
 const path = require("node:path");
+const { upload } = require(appRoot + "/middlewares");
 
 const express = require("express");
 
@@ -45,6 +46,14 @@ userRouter.patch(
   auth,
   validation(userSubscriptionSchemaApi),
   UserController.updateSubscription
+);
+
+// // PATCH user avatar
+userRouter.patch(
+  "/avatar",
+  auth,
+  // upload.single("avatar"),
+  UserController.updateAvatar
 );
 
 // DELETE user and data
