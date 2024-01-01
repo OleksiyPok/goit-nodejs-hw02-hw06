@@ -5,10 +5,14 @@ const createError = require("http-errors");
 const { errorWrapper } = require(appRoot + "/helpers");
 
 const updateById = async (req, res) => {
+  const { id: ownerid } = req.user;
   const { contactId } = req.params;
+
   const updatedContact = await Contact.findByIdAndUpdate(contactId, req.body, {
     new: true,
-  });
+  })
+    .and([{ owner: ownerid }])
+    .exec();
 
   if (updatedContact === null) {
     throw createError(

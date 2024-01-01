@@ -5,8 +5,13 @@ const createError = require("http-errors");
 const { errorWrapper } = require(appRoot + "/helpers");
 
 const getById = async (req, res) => {
+  const { id: ownerid } = req.user;
   const { contactId } = req.params;
-  const contact = await Contact.findById(contactId);
+
+  const contact = await Contact.findById(contactId)
+    .and([{ owner: ownerid }])
+    .populate("owner", "name email")
+    .exec();
 
   if (contact === null) {
     throw createError(

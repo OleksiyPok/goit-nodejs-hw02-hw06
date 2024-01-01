@@ -1,5 +1,6 @@
 const appRoot = process.cwd();
 const bcrypt = require("bcrypt");
+const gravatar = require("gravatar");
 const createError = require("http-errors");
 
 const { errorWrapper } = require(appRoot + "/helpers");
@@ -8,6 +9,7 @@ const { User } = require(appRoot + "/models");
 
 const register = async (req, res) => {
   const email = req.body.email.toLowerCase();
+  const avatarUrl = gravatar.url(email);
 
   const user = await User.findOne({ email }).exec();
 
@@ -25,6 +27,7 @@ const register = async (req, res) => {
     ...req.body,
     email,
     password: passwordHash,
+    avatar: avatarUrl,
   };
 
   await User.create(newUser);
