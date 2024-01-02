@@ -1,8 +1,10 @@
 const appRoot = process.cwd();
+const createError = require("http-errors");
+const { errorWrapper } = require(appRoot + "/helpers");
 
 const { User } = require(appRoot + "/models");
 
-const resendEmail = async (req, rs) => {
+const resendEmail = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
 
@@ -21,4 +23,4 @@ const resendEmail = async (req, rs) => {
     message: `Verification Email has been sent`,
   });
 };
-module.exports = resendEmail;
+module.exports = errorWrapper(resendEmail);

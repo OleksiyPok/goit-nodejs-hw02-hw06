@@ -2,7 +2,8 @@ const appRoot = process.cwd();
 const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
 const crypto = require("node:crypto");
-const { mailServiceGmail, mailServiceUkrNet } = require(appRoot + "/services");
+// const { mailServiceGmail } = require(appRoot + "/services");
+const { mailServiceUkrNet } = require(appRoot + "/services");
 
 const createError = require("http-errors");
 const { errorWrapper } = require(appRoot + "/helpers");

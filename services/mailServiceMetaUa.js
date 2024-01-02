@@ -37,13 +37,7 @@ const verifyConnection = async (error, success) => {
 // sending an email with the specified data
 const sendEmail = async (data = {}) => {
   const email = { ...defaultEmail, ...data };
-
-  try {
-    const info = await transporter.sendMail(email);
-    return true;
-  } catch (error) {
-    throw error;
-  }
+  await transporter.sendMail(email);
 };
 
 const mailService = {

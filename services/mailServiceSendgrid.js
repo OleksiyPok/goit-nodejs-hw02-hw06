@@ -16,13 +16,8 @@ sgMailService.setApiKey(SENDGRID_API_KEY);
 
 // sending an email with the specified data
 const sendEmail = async (data = {}) => {
-  try {
-    const email = { ...defaultEmail, ...data };
-    const info = await sgMailService.send(email);
-    return true;
-  } catch (error) {
-    throw error;
-  }
+  const email = { ...defaultEmail, ...data };
+  await sgMailService.send(email);
 };
 
 const mailService = {
