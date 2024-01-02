@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const { METAUA_MAIL_USER, METAUA_SMTP_PASSWORD } = process.env;
 
-// create email header and body
+// create default email header and body
 const defaultEmail = {
   to: METAUA_MAIL_USER,
   subject: "Test reply email",
@@ -34,8 +34,8 @@ const verifyConnection = async (error, success) => {
   }
 };
 
-// send email
-const sendEmail = async (data) => {
+// sending an email with the specified data
+const sendEmail = async (data = {}) => {
   const email = { ...defaultEmail, ...data };
 
   try {

@@ -12,7 +12,6 @@ const dateSuffix = require(appRoot + "/helpers");
 
 const updateAvatar = async (req, res) => {
   const file = req.file;
-  console.log("file:", file);
   const userid = req.user.id;
 
   const tempFilePath = file.path;
