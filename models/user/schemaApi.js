@@ -11,6 +11,10 @@ const userRegisterSchemaApi = Joi.object().keys({
   subscription: Joi.string().valid(...userSubscription),
 });
 
+const userVerifyEmailSchemaApi = Joi.object().keys({
+  email: Joi.string().pattern(REGEX.emailRegex).required(),
+});
+
 const userLoginSchemaApi = Joi.object().keys({
   email: Joi.string().pattern(REGEX.emailRegex).required(),
   password: Joi.string().pattern(REGEX.passwordRegex).required(),
@@ -24,6 +28,7 @@ const userSubscriptionSchemaApi = Joi.object().keys({
 
 module.exports = {
   userRegisterSchemaApi,
+  userVerifyEmailSchemaApi,
   userLoginSchemaApi,
   userSubscriptionSchemaApi,
 };

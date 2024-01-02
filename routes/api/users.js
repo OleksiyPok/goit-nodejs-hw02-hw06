@@ -7,12 +7,13 @@ const express = require("express");
 const userRouter = express.Router();
 const jsonParser = express.json();
 
-const { users: UserController } = require(path.join(appRoot + "/controllers"));
+const { UserController } = require(path.join(appRoot + "/controllers"));
 
 path.join(process.cwd());
 const { auth, validation } = require(appRoot + "/middlewares");
 const {
   userRegisterSchemaApi,
+  userVerifyEmailSchemaApi,
   userLoginSchemaApi,
   userSubscriptionSchemaApi,
 } = require(appRoot + "/models");
@@ -23,6 +24,21 @@ userRouter.post(
   jsonParser,
   validation(userRegisterSchemaApi),
   UserController.register
+);
+
+// GET verify user email
+userRouter.get(
+  "/verify/:verificationToken",
+  jsonParser,
+  UserController.verifyEmail
+);
+
+// POST resend verification email
+userRouter.post(
+  "/verify",
+  jsonParser,
+  validation(userVerifyEmailSchemaApi),
+  UserController.resendEmail
 );
 
 // POST login user
@@ -48,7 +64,7 @@ userRouter.patch(
   UserController.updateSubscription
 );
 
-// // PATCH user avatar
+// PATCH user avatar
 userRouter.patch(
   "/avatar",
   auth,
@@ -58,4 +74,5 @@ userRouter.patch(
 
 // DELETE user and data
 userRouter.delete("/delete", auth, UserController.deleteUser);
+
 module.exports = userRouter;

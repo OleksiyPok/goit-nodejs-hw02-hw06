@@ -6,7 +6,7 @@ const jsonParser = express.json();
 
 const { contactSchemaApi, contactSchemaApiFavorite } = require(appRoot +
   "/models");
-const { contacts: ContactsController } = require(appRoot + "/controllers");
+const { ContactsController } = require(appRoot + "/controllers");
 const { auth, validation } = require(appRoot + "/middlewares");
 
 // GET contacts

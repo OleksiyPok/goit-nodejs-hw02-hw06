@@ -1,22 +1,6 @@
-const {
-  User,
-  userRegisterSchemaApi,
-  userLoginSchemaApi,
-  userSubscriptionSchemaApi,
-} = require("./user");
+const userModel = require("./user");
+const contactModel = require("./contact");
 
-const {
-  Contact,
-  contactSchemaApi,
-  contactSchemaApiFavorite,
-} = require("./contact");
+const models = { ...userModel, ...contactModel };
 
-module.exports = {
-  User,
-  userRegisterSchemaApi,
-  userLoginSchemaApi,
-  userSubscriptionSchemaApi,
-  Contact,
-  contactSchemaApi,
-  contactSchemaApiFavorite,
-};
+module.exports = models;

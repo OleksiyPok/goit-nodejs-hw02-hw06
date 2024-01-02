@@ -1,8 +1,6 @@
-const { contactSchemaApi, contactSchemaApiFavorite } = require("./schemaApi");
 const Contact = require("./contact");
+const schemaApi = require("./schemaApi");
 
-module.exports = {
-  Contact,
-  contactSchemaApi,
-  contactSchemaApiFavorite,
-};
+const contactModel = { Contact, ...schemaApi };
+
+module.exports = contactModel;
