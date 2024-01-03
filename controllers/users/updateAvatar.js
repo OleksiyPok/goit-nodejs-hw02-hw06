@@ -44,7 +44,10 @@ const updateAvatar = async (req, res) => {
     ).exec();
 
     if (updatedUser === null) {
-      throw createError(404, `User not found`);
+      throw createError(
+        404,
+        `The requested user has not been found (id: ${userid})`
+      );
     }
 
     res.status(200).json({

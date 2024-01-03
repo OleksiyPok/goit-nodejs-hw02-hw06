@@ -15,7 +15,7 @@ const login = async (req, res) => {
   const user = await User.findOne({ email }).exec();
 
   if (user === null) {
-    throw createError(401, `Email or passwort is incorrect`);
+    throw createError(401, `Email or password is incorrect`);
   }
 
   if (!user.verify) {
@@ -32,16 +32,17 @@ const login = async (req, res) => {
     throw createError(401, `Email or passwort is incorrect`);
   }
 
-  const updUser = await User.findByIdAndUpdate(
+  const logUser = await User.findByIdAndUpdate(
     user._id,
     { token },
     { new: true }
   ).exec();
 
   res.status(200).json({
+    message: `User ${logUser.name} is login`,
     status: "success",
     code: 200,
-    data: { name: updUser.name, email: updUser.email, token },
+    data: { name: logUser.name, email: logUser.email, token },
   });
 };
 

@@ -23,9 +23,9 @@ const deleteUser = async (req, res) => {
   const deletedUserDataItems = deletedData.deletedCount;
 
   res.status(200).json({
+    message: `User id:${id} ( '${name}' )  has been successfully deleted`,
     status: "success",
     code: 200,
-    message: `User id:${id} ( '${name}' )  has been successfully deleted`,
     data: {
       deletedUser: {
         id,

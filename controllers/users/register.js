@@ -47,6 +47,7 @@ const register = async (req, res) => {
   await mailServiceUkrNet.sendEmail(verificationEmail);
 
   res.status(201).json({
+    message: "User has been registered. Email confirmation required",
     status: "success",
     code: 201,
     data: {
