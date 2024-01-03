@@ -39,8 +39,6 @@ const deleteUser = async (req, res) => {
       deletedUserDataItems,
     },
   });
-
-  //   res.status(200).json({ message: "delete user" });
 };
 
 module.exports = errorWrapper(deleteUser);

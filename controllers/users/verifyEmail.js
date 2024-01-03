@@ -1,7 +1,6 @@
 const appRoot = process.cwd();
 
 const { User } = require(appRoot + "/models");
-console.log("User:", User);
 const createError = require("http-errors");
 const { errorWrapper } = require(appRoot + "/helpers");
 
