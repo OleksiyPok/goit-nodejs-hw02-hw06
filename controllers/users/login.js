@@ -18,6 +18,10 @@ const login = async (req, res) => {
     throw createError(401, `Email or passwort is incorrect`);
   }
 
+  if (!user.verify) {
+    throw createError(403, `Email has not been verified`);
+  }
+
   const token = jwt.sign({ id: user._id, name: user.name }, JWT_SECRET, {
     expiresIn: "4h",
   });
