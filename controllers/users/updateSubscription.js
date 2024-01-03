@@ -25,7 +25,7 @@ const updateSubscription = async (req, res) => {
     message: `Subscription ${updatedUser.name} has been updated`,
     status: "success",
     code: 200,
-    data: updatedContact,
+    data: updatedUser,
   });
 };
 
