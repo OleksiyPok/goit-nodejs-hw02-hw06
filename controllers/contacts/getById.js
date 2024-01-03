@@ -13,6 +13,8 @@ const getById = async (req, res) => {
     .populate("owner", "name email")
     .exec();
 
+  console.log("contact:", contact);
+
   if (contact === null) {
     throw createError(
       404,

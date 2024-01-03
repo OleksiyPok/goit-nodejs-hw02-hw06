@@ -9,7 +9,10 @@ const verifyEmail = async (req, res) => {
   const user = await User.findOne({ verificationToken });
 
   if (!user) {
-    throw createError(401, `User has not been found`);
+    throw createError(
+      401,
+      `User has not been found or email already has been verified`
+    );
   }
 
   await User.findByIdAndUpdate(user._id, {
@@ -18,7 +21,7 @@ const verifyEmail = async (req, res) => {
   });
 
   res.status(200).json({
-    message: `Email of user ${user.name} has been verified`,
+    message: `Email ${user.email} has been verified`,
   });
 };
 module.exports = errorWrapper(verifyEmail);

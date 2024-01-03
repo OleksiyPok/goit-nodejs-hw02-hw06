@@ -12,7 +12,7 @@ const resendEmail = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw createError(401, `User has not found`);
+    throw createError(401, `User has not been found`);
   }
 
   if (user.verify) {

@@ -8,6 +8,7 @@ const logout = async (req, res) => {
   const outUser = await User.findByIdAndUpdate(id, {
     token: null,
   }).exec();
+
   res.status(204).json({
     message: `User ${outUser.name} is logout`,
     status: "success",

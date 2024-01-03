@@ -1,7 +1,6 @@
 const appRoot = process.cwd();
 const { Contact } = require(appRoot + "/models");
 
-// const createError = require("http-errors");
 const { errorWrapper } = require(appRoot + "/helpers");
 
 const getAll = async (req, res) => {
