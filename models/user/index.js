@@ -1,14 +1,6 @@
 const User = require("./user");
+const schemaApi = require("./schemaApi");
 
-const {
-  userRegisterSchemaApi,
-  userLoginSchemaApi,
-  userSubscriptionSchemaApi,
-} = require("./schemaApi");
+const userModel = { User, ...schemaApi };
 
-module.exports = {
-  User,
-  userRegisterSchemaApi,
-  userLoginSchemaApi,
-  userSubscriptionSchemaApi,
-};
+module.exports = userModel;

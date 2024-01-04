@@ -8,7 +8,12 @@ const logout = async (req, res) => {
   const outUser = await User.findByIdAndUpdate(id, {
     token: null,
   }).exec();
-  res.status(204).send(`User ${outUser.name} is logout`);
+
+  res.status(204).json({
+    message: `User ${outUser.name} is logout`,
+    status: "success",
+    code: 204,
+  });
 };
 
 module.exports = errorWrapper(logout);

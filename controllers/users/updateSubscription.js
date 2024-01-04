@@ -8,13 +8,13 @@ const updateSubscription = async (req, res) => {
   const { id: userid } = req.user;
   const { subscription } = req.body;
 
-  const updatedContact = await User.findByIdAndUpdate(
+  const updatedUser = await User.findByIdAndUpdate(
     userid,
     { subscription },
     { new: true }
   ).exec();
 
-  if (updatedContact === null) {
+  if (updatedUser === null) {
     throw createError(
       404,
       `The requested user has not been found (id: ${userid})`
@@ -22,9 +22,10 @@ const updateSubscription = async (req, res) => {
   }
 
   res.status(200).json({
+    message: `Subscription ${updatedUser.name} has been updated`,
     status: "success",
     code: 200,
-    data: updatedContact,
+    data: updatedUser,
   });
 };
 
