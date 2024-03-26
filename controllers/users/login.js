@@ -23,7 +23,7 @@ const login = async (req, res) => {
   }
 
   const token = jwt.sign({ id: user._id, name: user.name }, JWT_SECRET, {
-    expiresIn: "4h",
+    expiresIn: "24h",
   });
 
   const userIsMath = await bcrypt.compare(password, user.password);

@@ -1,24 +1,16 @@
 const appRoot = process.cwd();
-const { Contact } = require(appRoot + "/models");
 
 const createError = require("http-errors");
 const { errorWrapper } = require(appRoot + "/helpers");
+const { dbContactServices } = require(appRoot + "/services");
 
 const getById = async (req, res) => {
-  const { id: ownerid } = req.user;
-  const { contactId } = req.params;
-
-  const contact = await Contact.findById(contactId)
-    .and([{ owner: ownerid }])
-    .populate("owner", "name email")
-    .exec();
-
-  console.log("contact:", contact);
+  const contact = await dbContactServices.getById(req);
 
   if (contact === null) {
     throw createError(
       404,
-      `The requested contact has not been found (id: ${contactId})`
+      `The requested contact has not been found (id: ${req.params.contactId})`
     );
   }
 

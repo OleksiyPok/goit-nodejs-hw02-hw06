@@ -1,13 +1,11 @@
 const appRoot = process.cwd();
-const { Contact } = require(appRoot + "/models");
 
 // const createError = require("http-errors");
 const { errorWrapper } = require(appRoot + "/helpers");
+const { dbContactServices } = require(appRoot + "/services");
 
 const addNew = async (req, res) => {
-  const { id: ownerid } = req.user;
-  const newContact = { ...req.body, owner: ownerid };
-  const addedContact = await Contact.create(newContact);
+  const addedContact = await dbContactServices.addNew(req);
 
   res.status(201).json({
     status: "success",

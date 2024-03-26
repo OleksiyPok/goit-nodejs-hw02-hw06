@@ -1,35 +1,33 @@
 const appRoot = process.cwd();
-const { Contact } = require(appRoot + "/models");
 
 const { errorWrapper } = require(appRoot + "/helpers");
+const { dbContactServices } = require(appRoot + "/services");
 
 const getAll = async (req, res) => {
-  const { id: ownerid } = req.user;
-  const { page = 1, limit = 10, favorite } = req.query;
+  const allData = await dbContactServices.getAll(req);
+  const allDataLength = allData.length;
 
-  const skip = (page - 1) * limit;
-  const query = favorite ? { owner: ownerid, favorite } : { owner: ownerid };
+  const { page = 1, limit = 10 } = req.query;
+  const pageQuantity = Math.ceil(allDataLength / limit);
 
-  const allData = await Contact.find(query, "-createdAt -updatedAt -owner")
-    .and([{ owner: ownerid }])
-    .exec();
+  if (page > pageQuantity) {
+    currPage = pageQuantity;
+  } else {
+    currPage = page;
+  }
 
-  const currPageData = await Contact.find(
-    query,
-    "-createdAt -updatedAt -owner",
-    {
-      skip: Number(skip),
-      limit: Number(limit),
-    }
-  )
-    .and([{ owner: ownerid }])
-    .exec();
+  const skip = (currPage - 1) * limit;
+
+  req.query.skip = skip;
+  req.query.page = currPage;
+
+  const currPageData = await dbContactServices.getPaginated(req);
 
   res.status(200).json({
     status: "success",
     code: 200,
     dataLength: allData.length,
-    page: Number(page),
+    page: Number(currPage),
     dataOnPage: currPageData.length,
     currPageData,
   });

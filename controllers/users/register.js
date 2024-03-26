@@ -2,8 +2,9 @@ const appRoot = process.cwd();
 const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
 const crypto = require("node:crypto");
-// const { mailServiceGmail } = require(appRoot + "/services");
-const { mailServiceUkrNet } = require(appRoot + "/services");
+const { mailServiceGmail } = require(appRoot + "/services");
+// const { mailServiceUkrNet } = require(appRoot + "/services");
+// const { mailServiceMailtrap } = require(appRoot + "/services");
 
 const createError = require("http-errors");
 const { errorWrapper } = require(appRoot + "/helpers");
@@ -20,7 +21,6 @@ const register = async (req, res) => {
     throw createError(
       409,
       `User with the same email already exist in the system (email: ${user.email}, name: ${user.name})`
-      // "message": "Email in use"
     );
   }
 
@@ -43,8 +43,9 @@ const register = async (req, res) => {
     html: `<a href="http://localhost:3001/api/users/verify/${verificationToken}" target="_blank">Click to confirm registration</a>`,
   };
 
-  // await mailServiceGmail.sendEmail(verificationEmail);
-  await mailServiceUkrNet.sendEmail(verificationEmail);
+  await mailServiceGmail.sendEmail(verificationEmail);
+  // await mailServiceUkrNet.sendEmail(verificationEmail);
+  // await mailServiceMailtrap.sendEmail(mailServiceMailtrap);
 
   res.status(201).json({
     message: "User has been registered. Email confirmation required",
