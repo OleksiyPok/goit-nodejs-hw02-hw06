@@ -4,10 +4,16 @@ const mailServiceMailtrap = require("./mailServiceMailtrap");
 const mailServiceUkrNet = require("./mailServiceUkrNet");
 // const mailServiceSendgrid = require("./mailServiceSendgrid");
 
+const dbUserServices = require("./dbUserServices");
+const dbContactServices = require("./dbContactServices");
+
 module.exports = {
   mailServiceGmail,
   mailServiceMailtrap,
   // mailServiceMetaUa,
   mailServiceUkrNet,
   // mailServiceSendgrid,
+
+  // dbUserServices,
+  dbContactServices,
 };

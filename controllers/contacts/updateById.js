@@ -3,21 +3,15 @@ const { Contact } = require(appRoot + "/models");
 
 const createError = require("http-errors");
 const { errorWrapper } = require(appRoot + "/helpers");
+const { dbContactServices } = require(appRoot + "/services");
 
 const updateById = async (req, res) => {
-  const { id: ownerid } = req.user;
-  const { contactId } = req.params;
-
-  const updatedContact = await Contact.findByIdAndUpdate(contactId, req.body, {
-    new: true,
-  })
-    .and([{ owner: ownerid }])
-    .exec();
+  const updatedContact = await dbContactServices.updateById(req);
 
   if (updatedContact === null) {
     throw createError(
       404,
-      `The requested contact has not been found (id: ${contactId})`
+      `The requested contact has not been found (id: ${req.params.contactId})`
     );
   }
 

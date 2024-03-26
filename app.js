@@ -18,7 +18,6 @@ app.use(cors());
 app.use("/api", routes);
 
 app.use(express.static(path.join(appRoot, "public")));
-// app.use(express.static("public"));
 
 // develop
 app.get("/ping", (req, res) => {
